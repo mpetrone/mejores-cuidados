@@ -9,7 +9,18 @@ import play.api.libs.json.Json
 class Application extends Controller {
 
   def dashboard = Action {
+    CsvMigrator.migrate("PC_amba.csv")
     Ok(views.html.dashboard("Your new application is ready."))
+  }
+
+  def search(q: Option[String]) = Action {
+    val query = q.map(_.trim) match {
+      case None => "%"
+      case Some("") => "%"
+      case Some(a) => a
+
+    }
+    Ok(Json.toJson(Product.list(filter = query)))
   }
 
   def list = Action { implicit request => Ok(Json.toJson(Product.list())) }

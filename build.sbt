@@ -1,4 +1,4 @@
-name := """playing-reactjs"""
+name := """mejores-cuidados"""
 
 version := "1.0-SNAPSHOT"
 
@@ -9,11 +9,10 @@ scalaVersion := "2.11.6"
 libraryDependencies ++= Seq(jdbc, cache, ws, evolutions, specs2 % Test)
 
 libraryDependencies ++= Seq(
-		"com.typesafe.play" %% "anorm" 				% "2.4.0",
-		"org.webjars" 		%% "webjars-play" 		% "2.4.0-1",
-  	"org.webjars" 		%  "bootstrap" 			% "3.1.1-2",
-  	"org.webjars" 		%  "react" 				% "0.13.3",
-  	"org.webjars" 		%  "marked" 			% "0.3.2"
+		"com.typesafe.play" %%  "anorm" 				  % "2.4.0",
+		"org.webjars" 		  %%  "webjars-play" 		% "2.4.0-1",
+  	"org.webjars" 		   %  "bootstrap" 			% "3.1.1-2",
+  	"org.webjars" 		   %  "react" 				  % "0.13.3"
 )
 
 resolvers += "scalaz-bintray" at "http://dl.bintray.com/scalaz/releases"

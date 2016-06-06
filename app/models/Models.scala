@@ -7,6 +7,7 @@ import anorm.SqlParser._
 import play.api.libs.functional.syntax._
 import play.api.libs.json._
 import scala.language.postfixOps
+import play.api.Logger
 
 case class Product(id: Long,
                    location: String,
@@ -66,7 +67,9 @@ object Product {
            orderBy: Int = 1,
            filter: String = "%"): Page[Product] = {
 
-    val offest = pageSize * page
+    Logger.debug(s"list with filter $filter")
+
+    val offset = pageSize * page
 
     DB.withConnection { implicit connection =>
 
@@ -79,7 +82,7 @@ object Product {
           limit {pageSize} offset {offset}
         """).on(
           'pageSize -> pageSize,
-          'offset -> offest,
+          'offset -> offset,
           'filter -> filter,
           'orderBy -> orderBy).as(productParser *)
 
@@ -91,7 +94,7 @@ object Product {
         """).on(
           'filter -> filter).as(scalar[Long].single)
 
-      Page(employees, page, offest, totalRows)
+      Page(employees, page, offset, totalRows)
     }
   }
 

@@ -5,8 +5,8 @@
 # Home page
 GET    /dashboard              controllers.Application.dashboard
 
-# Employees list (look at the default values for pagination parameters)
 GET    /products               controllers.Application.list
+GET    /search                 controllers.Application.search(q: Option[String])
 
 POST    /migrate/:filename     controllers.Application.migrate(filename: String)
 
