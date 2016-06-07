@@ -24,13 +24,13 @@ var ProductDetail = React.createClass({
       <div>
         <h1>Productos</h1>
         <Search doSearch={this.doSearch} />
-        <Products data={this.state.data} />
+        <ProductsTable data={this.state.data} />
       </div>
     );
   }
 });
 
-var Products = React.createClass({
+var ProductsTable = React.createClass({
   render: function() {
     var productNodes = this.props.data.map(function (product) {
       return (
@@ -46,8 +46,21 @@ var Products = React.createClass({
     });
 
     return (
-      <div className="well">
-        {productNodes}
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <theader>
+            <tr>
+              <th>Location</th>
+              <th>Category</th>
+              <th>Description</th>
+              <th>Unit Quantity</th>
+              <th>Price</th>
+            </tr>
+          </theader>
+          <tbody>
+            {productNodes}
+          </tbody> 
+        </table>
       </div>
     );
   }
@@ -55,7 +68,7 @@ var Products = React.createClass({
 
 var Search = React.createClass({
   render:function(){
-    return <input type="search" ref="searchInput" placeholder="Search Name" onChange={this.doSearch}/>
+    return <input type="search" class="form-control" ref="searchInput" placeholder="Search Name" onChange={this.doSearch}/>
   },
   doSearch: function(e) {
     e.preventDefault();
@@ -67,14 +80,15 @@ var Search = React.createClass({
 var Product = React.createClass({
   render: function() {
     return (
-      <blockquote>
-        <p>{this.props.category}</p>
-        <strong>{this.props.description}</strong>
-        <small>{this.props.price}</small>
-      </blockquote>
+      <tr>
+        <th>{this.props.location}</th>
+        <th>{this.props.category}</th>
+        <th>{this.props.description}</th>
+        <th>{this.props.unitQuatity}</th>
+        <th>{this.props.price}</th>
+      </tr>
     );
   }
 });
-
 
 React.render(<ProductDetail/>, document.getElementById('content'));

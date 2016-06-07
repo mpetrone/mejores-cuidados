@@ -9,7 +9,7 @@ import play.api.libs.json.Json
 class Application extends Controller {
 
   def dashboard = Action {
-    CsvMigrator.migrate("PC_amba.csv")
+    //CsvMigrator.migrate("PC_amba.csv")
     Ok(views.html.dashboard("Your new application is ready."))
   }
 
@@ -20,10 +20,8 @@ class Application extends Controller {
       case Some(a) => a
 
     }
-    Ok(Json.toJson(Product.list(filter = query)))
+    Ok(Json.toJson(Product.list(filter = query.toUpperCase)))
   }
-
-  def list = Action { implicit request => Ok(Json.toJson(Product.list())) }
 
   def migrate(filename: String) = Action { implicit request =>
     val count = CsvMigrator.migrate(filename)

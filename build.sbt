@@ -10,8 +10,8 @@ libraryDependencies ++= Seq(jdbc, cache, ws, evolutions, specs2 % Test)
 
 libraryDependencies ++= Seq(
 		"com.typesafe.play" %%  "anorm" 				  % "2.4.0",
+    "org.postgresql"     %  "postgresql"      % "9.4.1208",
 		"org.webjars" 		  %%  "webjars-play" 		% "2.4.0-1",
-  	"org.webjars" 		   %  "bootstrap" 			% "3.1.1-2",
   	"org.webjars" 		   %  "react" 				  % "0.13.3"
 )
 

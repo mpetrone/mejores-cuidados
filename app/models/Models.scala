@@ -65,7 +65,7 @@ object Product {
   def list(page: Int = 0,
            pageSize: Int = 10,
            orderBy: Int = 1,
-           filter: String = "%"): Page[Product] = {
+           filter: String): Page[Product] = {
 
     Logger.debug(s"list with filter $filter")
 
@@ -77,22 +77,22 @@ object Product {
         """
           select *
           from products
-          where description like {filter}
+          where textsearchable @@ to_tsquery('spanish', {filter})
           order by {orderBy} nulls last
           limit {pageSize} offset {offset}
         """).on(
           'pageSize -> pageSize,
           'offset -> offset,
-          'filter -> filter,
+          'filter -> (filter + " | " + filter + ":*"),
           'orderBy -> orderBy).as(productParser *)
 
       val totalRows = SQL(
         """
           select count(*)
           from products
-          where description like {filter}
+          where textsearchable @@ to_tsquery('spanish', {filter})
         """).on(
-          'filter -> filter).as(scalar[Long].single)
+          'filter -> (filter + " | " + filter + ":*")).as(scalar[Long].single)
 
       Page(employees, page, offset, totalRows)
     }
@@ -108,8 +108,9 @@ object Product {
     DB.withConnection { implicit connection =>
       SQL(
         """
-          insert into products (location, category, description, brand, unit_quantity, ean, price)
-           values ( {location}, {category}, {description}, {brand}, {unitQuantity}, {ean}, {price})
+          insert into products (location, category, description, brand, unit_quantity, ean, price, textsearchable)
+           values ( {location}, {category}, {description}, {brand}, {unitQuantity}, {ean}, {price},
+           to_tsvector('spanish', coalesce({category},'') || ' ' || coalesce({description},'')))
         """).on(
           'location -> location,
           'category -> category,

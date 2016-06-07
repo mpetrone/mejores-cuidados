@@ -5,7 +5,6 @@
 # Home page
 GET    /dashboard              controllers.Application.dashboard
 
-GET    /products               controllers.Application.list
 GET    /search                 controllers.Application.search(q: Option[String])
 
 POST    /migrate/:filename     controllers.Application.migrate(filename: String)
